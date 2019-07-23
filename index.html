@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax Demo</title>
+</head>
+<body>
+    <form action="#" name="myForm">
+        <p>
+            <input type="text" name="login" placeholder="Enter login">
+        </p>
+        <p>
+            <select name="command" id="command">
+                <option value="players">Список игроков</option>
+                <option value="countries">Список стран</option>
+                <option value="languages">Список языков</option>
+                <option value="cars">Список машин</option>
+            </select>
+        </p>
+        <p>
+            <input type="submit" value="Send" name="send">
+        </p>
+    </form>
+    <script>
+        document.myForm.send.addEventListener("click",()=>{
+            event.preventDefault();
+            let login = document.myForm.login.value;
+            let action = document.myForm.command.value;
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET",`postData.php?login=${login}&action=${action}`, true);
+            xhr.send();
+            xhr.onreadystatechange = ()=> {
+                if(xhr.readyState != 4) {return};
+                if(xhr.status != 200) {
+                    console.log(`${xhr.status}:${xhr.statusText}`)
+                }
+                else {
+                    alert(`${xhr.status}:${xhr.responseText}`);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
